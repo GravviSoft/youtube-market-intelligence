@@ -1,0 +1,35 @@
+{
+  "name": "youtube-market-intelligence",
+  "version": "1.0.0",
+  "description": "YouTube Market Intelligence Dashboard - Full Stack Application",
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend:prod": "cd backend && npm run start:prod",
+    "build:frontend": "cd frontend && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GravviSoft/youtube-market-intelligence.git"
+  },
+  "keywords": [
+    "youtube",
+    "analytics",
+    "dashboard",
+    "market-intelligence",
+    "react",
+    "nodejs",
+    "express",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GravviSoft/youtube-market-intelligence/issues"
+  },
+  "homepage": "https://github.com/GravviSoft/youtube-market-intelligence#readme"
+}

@@ -1,0 +1,220 @@
+/* Light Mode (Default) */
+:root {
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f3f5;
+    --text-primary: #2c3e50;
+    --text-secondary: #6c757d;
+    --text-tertiary: #adb5bd;
+    --border-color: #dee2e6;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --primary-color: #3b82f6;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #06b6d4;
+    --card-hover: #fafbfc;
+}
+
+/* Dark Mode */
+.dark-mode {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --border-color: #475569;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+    --primary-color: #60a5fa;
+    --success-color: #34d399;
+    --warning-color: #fbbf24;
+    --danger-color: #f87171;
+    --info-color: #22d3ee;
+    --card-hover: #293548;
+}
+
+/* Global Styles */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.App {
+    background-color: var(--bg-primary);
+    min-height: 100vh;
+}
+
+/* Card Styles */
+.p-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.p-card:hover {
+    background-color: var(--card-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.p-card .p-card-title,
+.p-card .p-card-content {
+    color: var(--text-primary);
+}
+
+.p-card .p-card-subtitle {
+    color: var(--text-secondary);
+}
+
+/* DataTable Styles */
+.p-datatable {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.p-datatable .p-datatable-header {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.p-datatable .p-datatable-tbody > tr {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+    background-color: var(--bg-tertiary);
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+    background-color: var(--card-hover);
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+    border-color: var(--border-color);
+}
+
+/* Panel Styles */
+.p-panel {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.p-panel .p-panel-header {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.p-panel .p-panel-content {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Input Styles */
+.p-inputtext {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.p-inputtext:enabled:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+/* Menubar Styles */
+.p-menubar {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.p-menubar .p-menuitem-link {
+    color: var(--text-primary);
+}
+
+.p-menubar .p-menuitem-link:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Slider Styles */
+.p-slider {
+    background-color: var(--border-color);
+}
+
+.p-slider .p-slider-range {
+    background-color: var(--primary-color);
+}
+
+.p-slider .p-slider-handle {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+}
+
+/* Message Styles */
+.p-message {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Paginator Styles */
+.p-paginator {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+    color: var(--text-primary);
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background-color: var(--bg-tertiary);
+}
+
+/* Chart Container */
+.chart-container {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.theme-toggle i {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
