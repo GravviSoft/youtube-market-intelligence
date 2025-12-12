@@ -7,10 +7,10 @@ networks:
 services:
   youtube-intel-backend:
     build:
-      context: ../backend
-      dockerfile: ../backend/Dockerfile
+      context: ${PWD}/backend
+      dockerfile: ${PWD}/backend/Dockerfile
     env_file:
-      - ../backend/.env
+      - ${PWD}/backend/.env
     expose:
       - "4000"
     networks:

@@ -7,8 +7,8 @@ networks:
 services:
   youtube-intel-frontend:
     build:
-      context: ../frontend
-      dockerfile: ../frontend/Dockerfile
+      context: ${PWD}/frontend
+      dockerfile: ${PWD}/frontend/Dockerfile
     expose:
       - "3000"
     networks:
