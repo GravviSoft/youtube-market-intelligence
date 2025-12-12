@@ -12,7 +12,7 @@ if ! docker network inspect "${NETWORK}" >/dev/null 2>&1; then
 fi
 
 docker compose \
-  -f "${ROOT_DIR}/infra/proxy/docker-compose.yml" \
+  -f "${ROOT_DIR}/infra/proxy/traefik-compose.yml" \
   -f "${ROOT_DIR}/frontend/docker-compose.yml" \
   -f "${ROOT_DIR}/backend/docker-compose.yml" \
   up -d --build

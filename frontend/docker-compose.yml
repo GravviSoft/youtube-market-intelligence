@@ -9,10 +9,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3001:3000"
     expose:
       - "3000"
     networks:
       - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.yt-frontend.rule=Host(`yt-analytics.gravvisoft.com`)"
+      - "traefik.http.routers.yt-frontend.entrypoints=websecure"
+      - "traefik.http.routers.yt-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.yt-frontend.service=yt-frontend-svc"
+      - "traefik.http.services.yt-frontend-svc.loadbalancer.server.port=3000"
+      - "traefik.http.routers.yt-frontend-web.rule=Host(`yt-analytics.gravvisoft.com`)"
+      - "traefik.http.routers.yt-frontend-web.entrypoints=web"
+      - "traefik.http.routers.yt-frontend-web.middlewares=redirect-to-https"
     restart: unless-stopped
