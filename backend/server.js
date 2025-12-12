@@ -10,7 +10,9 @@ const {
     getOpportunities,
     getAllChannels,
     getAllVideos,
-    getNewChannels
+    getNewChannels,
+    getViralChannels8w,
+    getViralChannels12w
 } = require('./controllers/analyticsController');
 
 const app = express();
@@ -36,6 +38,8 @@ app.get('/analytics/opportunities', getOpportunities);
 app.get('/allchannels', getAllChannels);
 app.get('/allvideos', getAllVideos);
 app.get('/newchannels', getNewChannels);
+app.get('/viralchannels8w', getViralChannels8w);
+app.get('/viralchannels12w', getViralChannels12w);
 
 // Start server
 app.listen(PORT, () => {

@@ -234,5 +234,61 @@ module.exports = {
             console.log(`ERROR: ${err}`);
             res.status(400).send(err);
         });
+    },
+
+    getViralChannels8w: (req, res) => {
+        console.log('Getting viral channels count (8 weeks)');
+        sequelize.query(`
+            SELECT COUNT(*)::int AS viral_channels_count
+            FROM public.channel c
+            WHERE
+                c.sub_count_num IS NOT NULL
+                AND c.sub_count_num < 100000
+                AND EXISTS (
+                    SELECT 1
+                    FROM public.videos v
+                    WHERE v.channel_url = c.channel_url
+                      AND v.views > 100000
+                )
+                AND c.not_interested IS FALSE
+                AND c.first_upload_date >= (CURRENT_DATE - INTERVAL '8 weeks')
+        `)
+        .then(dbResult => {
+            const viralChannels8wCount = dbResult[0][0]?.viral_channels_count || 0;
+            console.log('Viral channels (8 weeks):', viralChannels8wCount);
+            res.status(200).send({ viralChannels8wCount });
+        })
+        .catch(err => {
+            console.log(`ERROR: ${err}`);
+            res.status(400).send(err);
+        });
+    },
+
+    getViralChannels12w: (req, res) => {
+        console.log('Getting viral channels count (12 weeks)');
+        sequelize.query(`
+            SELECT COUNT(*)::int AS viral_channels_count
+            FROM public.channel c
+            WHERE
+                c.sub_count_num IS NOT NULL
+                AND c.sub_count_num < 100000
+                AND EXISTS (
+                    SELECT 1
+                    FROM public.videos v
+                    WHERE v.channel_url = c.channel_url
+                      AND v.views > 100000
+                )
+                AND c.not_interested IS FALSE
+                AND c.first_upload_date >= (CURRENT_DATE - INTERVAL '12 weeks')
+        `)
+        .then(dbResult => {
+            const viralChannels12wCount = dbResult[0][0]?.viral_channels_count || 0;
+            console.log('Viral channels (12 weeks):', viralChannels12wCount);
+            res.status(200).send({ viralChannels12wCount });
+        })
+        .catch(err => {
+            console.log(`ERROR: ${err}`);
+            res.status(400).send(err);
+        });
     }
 };

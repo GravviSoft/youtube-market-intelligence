@@ -53,7 +53,9 @@ export const analyticsAPI = {
 export const dataAPI = {
     getAllChannels: () => api.get('/allchannels'),
     getAllVideos: () => api.get('/allvideos'),
-    getNewChannels: () => api.get('/newchannels')
+    getNewChannels: () => api.get('/newchannels'),
+    getViralChannels8w: () => api.get('/viralchannels8w'),
+    getViralChannels12w: () => api.get('/viralchannels12w')
 };
 
 export default api;

@@ -1,0 +1,16 @@
+version: "3.9"
+
+networks:
+  proxy-net:
+    external: true
+
+services:
+  youtube-intel-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "3000"
+    networks:
+      - proxy-net
+    restart: unless-stopped

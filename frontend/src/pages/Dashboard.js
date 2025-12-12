@@ -5,7 +5,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { Message } from 'primereact/message';
 import { Card } from 'primereact/card';
 import StatsCard from '../components/StatsCard';
-import { analyticsAPI } from '../services/api';
+import { analyticsAPI, dataAPI } from '../services/api';
 import './Dashboard.css';
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
@@ -48,6 +48,11 @@ const Dashboard = () => {
     const [stats, setStats] = useState(null);
     const [niches, setNiches] = useState([]);
     const [channels, setChannels] = useState([]);
+    const [allChannelsCount, setAllChannelsCount] = useState(null);
+    const [allVideosCount, setAllVideosCount] = useState(null);
+    const [newChannelsCount, setNewChannelsCount] = useState(null);
+    const [viralChannels8wCount, setViralChannels8wCount] = useState(null);
+    const [viralChannels12wCount, setViralChannels12wCount] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -60,21 +65,38 @@ const Dashboard = () => {
             setLoading(true);
             setError(null);
 
-            const [statsRes, nichesRes, channelsRes] = await Promise.all([
+            const [statsRes, nichesRes, channelsRes, allChannelsRes, allVideosRes, newChannelsRes, viral8wRes, viral12wRes] = await Promise.all([
                 analyticsAPI.getStats(),
                 analyticsAPI.getNiches(),
-                analyticsAPI.getChannels(100)
+                analyticsAPI.getChannels(100),
+                dataAPI.getAllChannels(),
+                dataAPI.getAllVideos(),
+                dataAPI.getNewChannels(),
+                dataAPI.getViralChannels8w(),
+                dataAPI.getViralChannels12w()
             ]);
 
             setStats(statsRes.data || fallbackStats);
             setNiches((nichesRes.data && nichesRes.data.length ? nichesRes.data : fallbackNiches).slice(0, 10));
             setChannels((channelsRes.data && channelsRes.data.length ? channelsRes.data : fallbackChannels).slice(0, 20));
+
+            // Set individual endpoint data
+            setAllChannelsCount(allChannelsRes.data?.totalChannels || fallbackStats.totalChannels);
+            setAllVideosCount(allVideosRes.data?.totalVideos || fallbackStats.totalVideos);
+            setNewChannelsCount(newChannelsRes.data?.newChannelsCount || fallbackStats.newChannelsFourWeeks);
+            setViralChannels8wCount(viral8wRes.data?.viralChannels8wCount || 0);
+            setViralChannels12wCount(viral12wRes.data?.viralChannels12wCount || 0);
         } catch (err) {
             console.error('Error fetching dashboard data:', err);
             setError('Live data unavailable; showing demo insights.');
             setStats(fallbackStats);
             setNiches(fallbackNiches.slice(0, 10));
             setChannels(fallbackChannels.slice(0, 20));
+            setAllChannelsCount(fallbackStats.totalChannels);
+            setAllVideosCount(fallbackStats.totalVideos);
+            setNewChannelsCount(fallbackStats.newChannelsFourWeeks);
+            setViralChannels8wCount(0);
+            setViralChannels12wCount(0);
         } finally {
             setLoading(false);
         }
@@ -319,16 +341,6 @@ const Dashboard = () => {
                         Discover high-potential YouTube channels with low market saturation and strong revenue opportunities.
                         Track channel performance, analyze niche trends, and identify emerging creators before they saturate the market.
                     </p>
-                    <div className="hero-stats-mini">
-                        <div className="stat-mini">
-                            <i className="pi pi-database"></i>
-                            <span>{formatNumber(displayedStats?.totalChannels || 0)} Channels Tracked</span>
-                        </div>
-                        <div className="stat-mini">
-                            <i className="pi pi-chart-line"></i>
-                            <span>{formatNumber(displayedStats?.highOpportunityCount || 0)} Opportunities</span>
-                        </div>
-                    </div>
                 </div>
 
                 <div className="hero-actions">
@@ -348,46 +360,33 @@ const Dashboard = () => {
                 <div className="stats-grid">
                     <StatsCard
                         title="Total Channels"
-                        value={displayedStats?.totalChannels}
+                        value={allChannelsCount}
                         icon="pi pi-users"
                         color="#3b82f6"
                     />
                     <StatsCard
                         title="Total Videos"
-                        value={displayedStats?.totalVideos}
+                        value={allVideosCount}
                         icon="pi pi-video"
                         color="#8b5cf6"
                     />
                     <StatsCard
-                        title="High Opportunities"
-                        value={displayedStats?.highOpportunityCount}
-                        icon="pi pi-star"
-                        color="#10b981"
-                    />
-                    <StatsCard
-                        title="Avg Revenue"
-                        value={displayedStats?.avgRevenue}
-                        icon="pi pi-dollar"
-                        color="#f59e0b"
-                        suffix="/mo"
-                    />
-                    <StatsCard
-                        title="New Channels (4w)"
-                        value={displayedStats?.newChannelsFourWeeks}
+                        title="Viral Channels (4w)"
+                        value={newChannelsCount}
                         icon="pi pi-chart-line"
                         color="#06b6d4"
                     />
                     <StatsCard
-                        title="Low Saturation"
-                        value={displayedStats?.lowSaturationCount}
-                        icon="pi pi-compass"
-                        color="#84cc16"
+                        title="Viral Channels (8w)"
+                        value={viralChannels8wCount}
+                        icon="pi pi-bolt"
+                        color="#10b981"
                     />
                     <StatsCard
-                        title="Viral Small Channels"
-                        value={displayedStats?.viralSmallChannels}
+                        title="Viral Channels (12w)"
+                        value={viralChannels12wCount}
                         icon="pi pi-bolt"
-                        color="#ef4444"
+                        color="#f59e0b"
                     />
                 </div>
             </div>
