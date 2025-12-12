@@ -1,0 +1,47 @@
+networks:
+  proxy-net:
+    external: true
+
+services:
+  youtube-intel-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    expose:
+      - "3000"
+    networks:
+      - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.yt-frontend.rule=Host(`yt-analytics.gravvisoft.com`)"
+      - "traefik.http.routers.yt-frontend.entrypoints=websecure"
+      - "traefik.http.routers.yt-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.yt-frontend.service=yt-frontend-svc"
+      - "traefik.http.services.yt-frontend-svc.loadbalancer.server.port=3000"
+      - "traefik.http.routers.yt-frontend-web.rule=Host(`yt-analytics.gravvisoft.com`)"
+      - "traefik.http.routers.yt-frontend-web.entrypoints=web"
+      - "traefik.http.routers.yt-frontend-web.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+  youtube-intel-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    expose:
+      - "4000"
+    networks:
+      - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.yt-backend.rule=Host(`yt-analytics.gravvisoft.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.yt-backend.entrypoints=websecure"
+      - "traefik.http.routers.yt-backend.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.yt-backend.service=yt-backend-svc"
+      - "traefik.http.services.yt-backend-svc.loadbalancer.server.port=4000"
+      - "traefik.http.routers.yt-backend-web.rule=Host(`yt-analytics.gravvisoft.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.yt-backend-web.entrypoints=web"
+      - "traefik.http.routers.yt-backend-web.middlewares=redirect-to-https,yt-api-strip"
+      - "traefik.http.routers.yt-backend.middlewares=yt-api-strip"
+      - "traefik.http.middlewares.yt-api-strip.stripprefix.prefixes=/api"
