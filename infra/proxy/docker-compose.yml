@@ -1,0 +1,20 @@
+version: "3.9"
+
+networks:
+  proxy-net:
+    external: true
+
+services:
+  nginx-proxy:
+    image: nginx:1.25-alpine
+    container_name: nginx-proxy
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d:ro
+      - ./ssl:/etc/letsencrypt:ro
+      - ./www:/var/www/certbot:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - proxy-net
+    restart: unless-stopped
